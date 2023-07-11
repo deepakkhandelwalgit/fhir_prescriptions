@@ -1,0 +1,40 @@
+### List all Prescriptions by nhi
+GET http://localhost:3000/prescriptions/123456
+
+
+### Create a new Prescriptions
+POST http://localhost:3000/prescriptions
+content-type: application/json
+
+{
+  "patient": {
+    "nhi": "123456",
+    "name": "Patient One"
+  },
+  "date": "2023-07-08T18:13:02.507Z",
+  "medications": [
+    {
+      "id": "m12345",
+      "dose": "BD"
+    }
+  ]
+}
+
+
+### Update existing prescription
+PUT http://localhost:3000/prescriptions/123456
+content-type: application/json
+
+{
+  "patient": {
+    "nhi": "123456",
+    "name": "Patient One"
+  },
+  "date": "2023-07-08T18:13:02.507Z",
+  "medications": [
+    {
+      "id": "m12345",
+      "dose": "OD"
+    }
+  ]
+}
