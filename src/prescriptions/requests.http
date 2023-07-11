@@ -1,0 +1,46 @@
+### Get all Prescriptions by nhi
+GET http://localhost:3000/prescriptions?nhi=T123NHI
+
+### Create prescription
+POST http://localhost:3000/prescriptions
+content-type: application/json
+
+{
+  "patient": {
+    "nhi": "T123NHI",
+    "name": "Patient One"
+  },
+  "date": "2023-07-10T09:21:47.976Z",
+  "medications": [
+    {
+      "id": "MED0001",
+      "dose": "1 tablet OD"
+    },
+    {
+      "id": "MED0002",
+      "dose": "1 tablet BD"
+    }
+  ]
+}
+
+### Update an existing prescription
+PATCH http://localhost:3000/prescriptions/9388a4c0-6abd-49ad-aff1-50372bde05c9
+content-type: application/json
+
+{
+  "date": "2023-07-11T07:21:47.976Z",
+  "medications": [
+    {
+      "id": "MED0001",
+      "dose": "1 tablet OD before Food"
+    },
+    {
+      "id": "MED0002",
+      "dose": "1 tablet BD After Food"
+    },
+    {
+      "id": "MED0003",
+      "dose": "1 tablet OD in Night"
+    }
+  ]
+}
