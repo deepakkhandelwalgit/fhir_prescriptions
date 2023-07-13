@@ -25,6 +25,14 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript repository based on FHIR framework.
+We are building a REST API loosely based on FHIR (http://hl7.org/fhir/) which is a
+healthcare interoperability framework. A part of this API is a prescription resource which
+allows us to manage viewing and editing prescriptions. Assuming that we are starting from
+scratch, design and implement a simple backend API that allows us to do the following:
+- Search for prescriptions based on a unique id called “nhi”
+(https://www.health.govt.nz/our-work/health-identity/national-health-index)
+- Add a new prescription
+- Edit an existing prescription
 
 ## High Level Design Diagram
 ![Diagram Name](assets/flow-fhir.drawio)
@@ -68,11 +76,6 @@ $ npm run test:cov
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
