@@ -27,7 +27,7 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript repository based on FHIR framework.
 
 ## High Level Design Diagram
-![Diagram Name]('/assets/flow-fhir.drawio')
+![Diagram Name](assets/flow-fhir.drawio)
 
 ## Installation
 
