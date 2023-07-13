@@ -35,7 +35,7 @@ scratch, design and implement a simple backend API that allows us to do the foll
 - Edit an existing prescription
 
 ## High Level Design Diagram
-![Diagram Name](assets/flow-fhir.drawio)
+![Diagram Name](assets/flow-fhir.drawio.png)
 
 ## Documentation
 [Documentation](documentation/index.html)
