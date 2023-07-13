@@ -29,6 +29,9 @@
 ## High Level Design Diagram
 ![Diagram Name](assets/flow-fhir.drawio)
 
+## Documentation
+[Documentation](documentation/index.html)
+
 ## Installation
 
 ```bash
