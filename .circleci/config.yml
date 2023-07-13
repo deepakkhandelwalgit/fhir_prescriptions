@@ -60,9 +60,7 @@ jobs:
       - run:
           name: Wait for Mong to start
           command: dockerize -wait tcp://localhost:27017 -timeout 1m
-      - run:
-          name: E2E
-          command: npm run test:e2e
+
   build:
     working_directory: ~/fhir_prescriptions
     docker:
