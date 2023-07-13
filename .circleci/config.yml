@@ -1,0 +1,99 @@
+version: 2.1
+
+jobs:
+  checkout:
+    working_directory: ~/fhir_prescriptions
+    docker:
+      - image: cimg/node:18.12.1-browsers
+    steps:
+      - checkout
+      - save_cache:
+          key: v0-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/fhir_prescriptions
+  dependencies:
+    working_directory: ~/fhir_prescriptions
+    docker:
+      - image: cimg/node:18.12.1-browsers
+    steps:
+      - restore_cache:
+          key: v0-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - save_cache:
+          key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ~/fhir_prescriptions/node_modules
+  lint:
+    working_directory: ~/fhir_prescriptions
+    docker:
+      - image: cimg/node:18.12.1-browsers
+    steps:
+      - restore_cache:
+          key: v0-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: ESLint
+          command: npm run lint
+  test:
+    working_directory: ~/fhir_prescriptions
+    docker:
+      - image: cimg/node:18.12.1-browsers
+      - image: circleci/mongo:4.4-focal
+        environment:
+          DB_NAME: 'fhirdb'
+    steps:
+      - restore_cache:
+          key: v0-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: Test
+          command: npm run test
+      - run:
+          name: Copy .env
+          command: cp .env.dist .env
+      - run:
+          name: Wait for Mong to start
+          command: dockerize -wait tcp://localhost:27017 -timeout 1m
+      - run:
+          name: E2E
+          command: npm run test:e2e
+  build:
+    working_directory: ~/fhir_prescriptions
+    docker:
+      - image: cimg/node:18.12.1-browsers
+    steps:
+      - restore_cache:
+          key: v0-repo-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v0-node-{{ .Branch }}-{{ checksum "package.json" }}
+      - run:
+          name: Build
+          command: npm run build
+      - save_cache:
+          key: v0-build-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/fhir_prescriptions/dist/fhir_prescriptions
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - checkout
+      - dependencies:
+          requires:
+            - checkout
+      - lint:
+          requires:
+            - dependencies
+      - test:
+          requires:
+            - lint
+      - build:
+          requires:
+            - test
